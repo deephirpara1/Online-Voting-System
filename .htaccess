@@ -1,0 +1,26 @@
+# Deny direct access to config files
+<Files "*.php">
+    # Allow PHP files to be executed by the server
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+# Prevent directory listing
+Options -Indexes
+
+# Disable server signature
+ServerSignature Off
+
+# Additional security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Prevent access to .sql, .md, .json, .log files
+<FilesMatch "\.(sql|md|json|log|bak|env|ini)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
